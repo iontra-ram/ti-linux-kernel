@@ -12,7 +12,9 @@
 
 / {
 	aliases {
+                serial1 = &main_uart1;
 		serial2 = &main_uart0;
+                serial3 = &mcu_uart0;
 		mmc0 = &sdhci0;
 		mmc1 = &sdhci1;
 		mmc2 = &sdhci2;
@@ -166,12 +168,30 @@
 	};
 };
 
+&mcu_pmx0 {
+	/* First pad number is ALW package and second is AMC package */
+	mcu_uart0_pins_default: mcu-uart0-pins-default {
+		pinctrl-single,pins = <
+			AM62X_MCU_IOPAD(0x0014, PIN_INPUT, 0) /* MCU UART0 RXD */
+			AM62X_MCU_IOPAD(0x0018, PIN_OUTPUT, 0) /* MCU UART0 TXD */
+		>;
+	};
+};
+
 &main_pmx0 {
 	/* First pad number is ALW package and second is AMC package */
 	main_uart0_pins_default: main-uart0-pins-default {
 		pinctrl-single,pins = <
 			AM62X_IOPAD(0x1c8, PIN_INPUT, 0) /* (D14/A13) UART0_RXD */
 			AM62X_IOPAD(0x1cc, PIN_OUTPUT, 0) /* (E14/E11) UART0_TXD */
+		>;
+	};
+
+	/* First pad number is ALW package and second is AMC package */
+	main_uart1_pins_default: main-uart1-pins-default {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x1ac, PIN_INPUT, 2) /* (D14/A13) UART0_RXD */
+			AM62X_IOPAD(0x1b0, PIN_OUTPUT, 2) /* (E14/E11) UART0_TXD */
 		>;
 	};
 
@@ -332,9 +352,19 @@
 	interrupt-names = "irq", "wakeup";
 };
 
+&mcu_uart0 {
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&mcu_uart0_pins_default>;
+};
+
 &main_uart1 {
-	/* Main UART1 is used by TIFS firmware */
-	status = "reserved";
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&main_uart1_pins_default>;
+	interrupts-extended = <&gic500 GIC_SPI 179 IRQ_TYPE_LEVEL_HIGH>,
+			       <&main_pmx0 0x1ac>;
+	interrupt-names = "irq", "wakeup";
 };
 
 &main_i2c0 {
