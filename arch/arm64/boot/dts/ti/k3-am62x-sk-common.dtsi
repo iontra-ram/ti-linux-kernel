@@ -15,6 +15,7 @@
                 serial1 = &main_uart1;
 		serial2 = &main_uart0;
                 serial3 = &mcu_uart0;
+                serial5 = &main_uart5;
 		mmc0 = &sdhci0;
 		mmc1 = &sdhci1;
 		mmc2 = &sdhci2;
@@ -195,6 +196,15 @@
 		>;
 	};
 
+	/* First pad number is ALW package and second is AMC package */
+	main_uart5_pins_default: main-uart5-pins-default {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x1d8, PIN_INPUT, 1)
+			AM62X_IOPAD(0x1dc, PIN_OUTPUT, 1)
+		>;
+	};
+
+
 	main_i2c0_pins_default: main-i2c0-pins-default {
 		pinctrl-single,pins = <
 			AM62X_IOPAD(0x1e0, PIN_INPUT_PULLUP, 0) /* (B16/E12) I2C0_SCL */
@@ -365,6 +375,12 @@
 	interrupts-extended = <&gic500 GIC_SPI 179 IRQ_TYPE_LEVEL_HIGH>,
 			       <&main_pmx0 0x1ac>;
 	interrupt-names = "irq", "wakeup";
+};
+
+&main_uart5 {
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&main_uart5_pins_default>;
 };
 
 &main_i2c0 {
