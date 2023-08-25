@@ -199,8 +199,8 @@
 	/* First pad number is ALW package and second is AMC package */
 	main_uart5_pins_default: main-uart5-pins-default {
 		pinctrl-single,pins = <
-			AM62X_IOPAD(0x1d8, PIN_INPUT, 1)
-			AM62X_IOPAD(0x1dc, PIN_OUTPUT, 1)
+			AM62X_IOPAD(0x1d8, PIN_INPUT, 1) /* UART5 RXD */
+			AM62X_IOPAD(0x1dc, PIN_OUTPUT, 1) /* uart5 txd */
 		>;
 	};
 
