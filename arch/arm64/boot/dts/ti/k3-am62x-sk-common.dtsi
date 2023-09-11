@@ -268,6 +268,13 @@
 		>;
 	};
 
+        usr_exp_gpio_pins_default: usr-exp-gpio-pins-default {
+                pinctrl-single,pins = <
+                        AM62X_IOPAD(0x0088, PIN_OUTPUT, 7) /* (L24) GPMC0_OEn_REn.GPIO0_33 */
+                        AM62X_IOPAD(0x0094, PIN_OUTPUT, 7) /* (N20) GPMC0_BE1n.GPIO0_36 */
+                >;
+        };
+
 	main_mdio1_pins_default: main-mdio1-pins-default {
 		pinctrl-single,pins = <
 			AM62X_IOPAD(0x160, PIN_OUTPUT, 0) /* (AD24/V17) MDIO0_MDC */
@@ -404,6 +411,12 @@
                 reg = <0>;
                 compatible = "rohm,dh2228fv";
         };
+};
+
+&main_gpio1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&usr_exp_gpio_pins_default>;
+	status = "okay";
 };
 
 &main_i2c0 {
